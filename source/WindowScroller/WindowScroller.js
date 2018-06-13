@@ -47,6 +47,9 @@ type Props = {
 
   /** Width used for server-side rendering */
   serverWidth: number,
+
+  /** Set a different scroll top than zero when WindowScroller first mounts */
+  initialScrollTop: number,
 };
 
 type State = {
@@ -80,6 +83,7 @@ export default class WindowScroller extends React.PureComponent<Props, State> {
     scrollElement: getWindow(),
     serverHeight: 0,
     serverWidth: 0,
+    initialScrollTop: 0,
   };
 
   _window = getWindow();
@@ -93,7 +97,7 @@ export default class WindowScroller extends React.PureComponent<Props, State> {
     ...getDimensions(this.props.scrollElement, this.props),
     isScrolling: false,
     scrollLeft: 0,
-    scrollTop: 0,
+    scrollTop: this.props.initialScrollTop,
   };
 
   updatePosition(scrollElement: ?Element = this.props.scrollElement) {
