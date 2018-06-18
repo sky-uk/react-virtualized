@@ -146,11 +146,11 @@ export default class ArrowKeyStepperExample extends React.PureComponent<
   }
 
   _getColumnWidth = ({index}: {index: number}) => {
-    return (1 + index % 3) * 60;
+    return (1 + (index % 3)) * 60;
   };
 
   _getRowHeight = ({index}: {index: number}) => {
-    return (1 + index % 3) * 30;
+    return (1 + (index % 3)) * 30;
   };
 
   _cellRenderer = ({
