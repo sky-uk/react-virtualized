@@ -166,18 +166,28 @@ describe('WindowScroller', () => {
     expect(document.body.style.pointerEvents).toEqual('all');
   });
 
+  it('should pass the supplied scrollTop prop to the children on initial render', async () => {
+    const userScrollTop = 100;
+    const renderFn = jest.fn();
+    render(getMarkup({initialScrollTop: userScrollTop, renderFn}));
+
+    // Allow scrolling timeout to complete so that the component computes state
+    await new Promise(resolve => setTimeout(resolve, 150));
+
+    expect(renderFn.mock.calls[0][0].scrollTop).toBe(userScrollTop);
+  });
+
+  it('should default back to 0 if no scrollTop prop is supplied', async () => {
+    const renderFn = jest.fn();
+    render(getMarkup({renderFn}));
+
+    // Allow scrolling timeout to complete so that the component computes state
+    await new Promise(resolve => setTimeout(resolve, 150));
+
+    expect(renderFn.mock.calls[0][0].scrollTop).toBe(0);
+  });
+
   describe('onScroll', () => {
-    it('should pass the supplied scrollTop prop to the children on initial render', async () => {
-      const userScrollTop = 100;
-      const renderFn = jest.fn();
-      render(getMarkup({initialScrollTop: userScrollTop, renderFn}));
-
-      // Allow scrolling timeout to complete so that the component computes state
-      await new Promise(resolve => setTimeout(resolve, 150));
-
-      expect(renderFn.mock.calls[0][0].scrollTop).toBe(userScrollTop);
-    });
-
     it('should trigger callback when window scrolls', async () => {
       const onScroll = jest.fn();
       render(getMarkup({onScroll}));
